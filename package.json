@@ -1,0 +1,71 @@
+{
+  "author": "Mike Winter <mike+dato-shopify-full-product@studiorotate.com>",
+  "dependencies": {
+    "@babel/preset-env": "^7.1.6",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.4",
+    "babel-polyfill": "^6.26.0",
+    "css-loader": "^1.0.1",
+    "datocms-plugins-sdk": "0.0.7",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "vue": "^2.5.17",
+    "vue-loader": "^15.4.2",
+    "vue-style-loader": "^4.1.2",
+    "vue-template-compiler": "^2.5.17",
+    "webpack": "^4.25.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "datoCmsPlugin": {
+    "title": "Plugin title",
+    "previewImage": "docs/preview.gif",
+    "entryPoint": "dist/index.html",
+    "fieldTypes": [
+      "json"
+    ],
+    "pluginType": "field_editor",
+    "parameters": {
+      "global": [
+        {
+          "hint": "[{'storeDomain': 'test.domain', 'storeAccessToken': '1234567890'}, {'storeDomain': 'test.domain', 'storeAccessToken': '1234567890'}]",
+          "id": "shopifyStores",
+          "label": "JSON object with all your Shopify Stores API details",
+          "type": "json"
+        }
+      ],
+      "instance": [
+        {
+          "default": "eu",
+          "hint": "eu, uk, or us?",
+          "id": "whichShopifyStore",
+          "label": "Which Shopify store do you wish to search?",
+          "type": "json"
+        }
+      ]
+    }
+  },
+  "description": "Dato CMS UI extension to select Shopify products with full product data",
+  "homepage": "https://github.com/StudioRotate/dato-shopify-full-product/#readme",
+  "keywords": [
+    "datocms-plugin"
+  ],
+  "license": "GPL-3.0",
+  "name": "dato-shopify-full-product",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StudioRotate/dato-shopify-full-product.git"
+  },
+  "scripts": {
+    "webpack:dev": "cp index.html dist && NODE_ENV=development webpack --progress --watch",
+    "webpack:prod": "cp index.html dist && NODE_ENV=production webpack --progress"
+  },
+  "version": "1.0.0",
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-loader": "^2.1.1",
+    "eslint-plugin-prettier": "^3.0.0",
+    "prettier": "^1.15.2",
+    "stylelint": "^9.8.0",
+    "stylelint-order": "^1.0.0"
+  }
+}
