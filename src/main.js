@@ -1,8 +1,9 @@
 import "babel-polyfill"
+import "whatwg-fetch"
 
 import Vue from "vue"
 
-import shopifyProduct from "@/component/shopify-product.vue"
+import shopifyProduct from "@/components/shopify-product.vue"
 
 new Vue({
   el: "#app",
@@ -11,7 +12,5 @@ new Vue({
     shopifyProduct
   },
 
-  template: `
-    <shopifyProduct />
-  `
+  template: `<shopifyProduct />`
 })

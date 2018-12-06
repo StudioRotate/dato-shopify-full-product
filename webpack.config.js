@@ -1,11 +1,27 @@
-const path      = require("path")
-const uglifyjs  = require("uglifyjs-webpack-plugin")
+const path = require("path")
+const uglifyjs = require("uglifyjs-webpack-plugin")
 const vueloader = require("vue-loader/lib/plugin")
+const webpack = require("webpack")
 
 module.exports = {
   devtool: "sourcemap",
+  devServer: {
+    compress: true,
+    host: "0.0.0.0",
+    open: false,
+    port: 3000,
+    publicPath: "/dst/",
+    stats: {
+      modules: false
+    },
+    watchContentBase: true,
+    watchOptions: {
+      ignored: /(node_modules|bower_components)/,
+      poll: true
+    }
+  },
   entry: {
-    index: path.resolve(__dirname, "index")
+    main: path.resolve(__dirname, "src", "main.js")
   },
   mode: process.env.NODE_ENV,
   module: {
@@ -15,7 +31,6 @@ module.exports = {
         test: /\.css$/
       },
       {
-        exclude: /(node_modules|bower_components)/,
         use: {
           loader: "babel-loader",
           options: {
@@ -36,38 +51,45 @@ module.exports = {
       },
       {
         loader: "vue-loader",
+        options: {
+          cacheBusting: true
+        },
         test: /\.vue$/
       }
     ]
   },
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "[name].js"
+    filename: "[name].js",
+    path: path.resolve(__dirname, "dst")
   },
-  plugins: [
-    new uglifyjs({
-      cache: true,
-      parallel: true,
-      uglifyOptions: {
-        minimizer: [],
-        splitChunks: {
-          cacheGroups: {
-            vendor: {
-              test: /(node_modules|bower_components)/,
-              name: "vendor",
-              chunks: "all"
-            }
-          }
-        }
-      },
-      sourceMap: true
-    }),
-    new vueloader()
-  ],
+  performance: {
+    hints: false
+  },
+  plugins: process.env.NODE_ENV === "production"
+    ?
+      [
+        new vueloader(),
+        new uglifyjs({
+          cache: true,
+          parallel: 8,
+          sourceMap: true
+        })
+      ]
+    :
+      [
+        new vueloader(),
+        new webpack.NamedModulesPlugin(),
+        new webpack.HotModuleReplacementPlugin()
+      ]
+  ,
   resolve: {
     alias: {
-      "@": __dirname,
-      vue: "vue/dist/vue.esm.js"
-    }
+      "@": path.resolve(__dirname, "src"),
+      vue$: "vue/dist/vue.esm.js"
+    },
+    extensions: ["*", ".js", ".json", ".vue"]
+  },
+  stats: {
+    modules: false
   }
 }
