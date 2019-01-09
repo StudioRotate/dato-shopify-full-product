@@ -313,7 +313,7 @@
                                 title
                                 updatedAt
                                 vendor
-                                variants(first:10) {
+                                variants(first:25) {
                                   edges {
                                     node {
                                       availableForSale
